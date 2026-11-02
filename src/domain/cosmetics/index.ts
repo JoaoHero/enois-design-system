@@ -44,6 +44,7 @@ export type { NameplateArt } from "../../types/domain/cosmetics/nameplate-art.js
 export type { NameplateProps } from "../../types/domain/cosmetics/nameplate-props.js";
 export type { OfficialBannerProps } from "../../types/domain/cosmetics/official-banner-props.js";
 export type { OfficialBannerSpec } from "../../types/domain/cosmetics/official-banner-spec.js";
+export type { OfficialBannerSprite } from "../../types/domain/cosmetics/official-banner-sprite.js";
 export type { ProfileCardData } from "../../types/domain/cosmetics/profile-card-data.js";
 export type { ProfileCardProps } from "../../types/domain/cosmetics/profile-card-props.js";
 export type { ProfileEffectMotion } from "../../types/domain/cosmetics/profile-effect-motion.js";

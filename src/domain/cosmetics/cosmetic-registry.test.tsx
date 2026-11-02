@@ -1,4 +1,6 @@
 // @vitest-environment node
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
@@ -73,6 +75,30 @@ describe("seasonal cosmetics registries", () => {
       ...CATALOG_LOOKS.map((look) => look.statusIcon),
     ];
     for (const key of keys) expect(hasIcon(key), key).toBe(true);
+  });
+
+  it("ships every Kenney sprite it references", () => {
+    const urls = [
+      ...Object.values(PROFILE_EFFECTS).flatMap((effect) => effect.sprites ?? []),
+      ...Object.values(OFFICIAL_BANNERS).flatMap((banner) =>
+        (banner.sprites ?? []).map((sprite) => sprite.src),
+      ),
+    ];
+    expect(urls.length).toBeGreaterThan(0);
+    for (const url of urls) {
+      expect(url).toMatch(/\.webp$/);
+      expect(existsSync(fileURLToPath(url)), url).toBe(true);
+    }
+  });
+
+  it("draws the permanent banners with the Kenney sprite masks", () => {
+    const night = renderToStaticMarkup(<OfficialBanner banner="banner-noite-limpa" />);
+    const garden = renderToStaticMarkup(<OfficialBanner banner="banner-jardim" />);
+
+    expect(night).toContain("star-01.webp");
+    expect(night).toContain("<mask");
+    expect(garden).toContain("grass-01.webp");
+    expect(garden).toContain("flower-01.webp");
   });
 
   it("finds every look item in the catalog", () => {
