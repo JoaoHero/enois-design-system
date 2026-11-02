@@ -44,6 +44,14 @@ describe("filterShopItems", () => {
 
     expect(classic.map((i) => i.id)).toEqual([
       "moldura-ambar",
+      "moldura-violeta",
+      "moldura-trepadeira",
+      "moldura-solar",
+      "moldura-coral",
+      "moldura-esmeralda",
+      "moldura-vaga-lumes",
+      "moldura-glacial",
+      "moldura-nebulosa",
       "garden-cerrado",
       "garden-mata-atlantica",
       "garden-caatinga",

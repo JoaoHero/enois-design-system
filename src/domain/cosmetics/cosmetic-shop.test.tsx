@@ -17,7 +17,9 @@ describe("CosmeticShop", () => {
 
     expect(html.match(/class="cos-item /g)?.length).toBeLessThanOrEqual(24);
     expect(html).toContain("Provar Redemoinho no perfil");
-    expect(html.match(/class="cos-look /g)).toHaveLength(SHOP_COLLECTIONS.length);
+    // Every look of every collection, not one per collection: Essenciais holds several.
+    const looks = SHOP_COLLECTIONS.reduce((total, collection) => total + collection.looks.length, 0);
+    expect(html.match(/class="cos-look /g)).toHaveLength(looks);
     expect(html).toContain("Prêmio de evento");
     expect(html).toContain("Clássicos");
   });
