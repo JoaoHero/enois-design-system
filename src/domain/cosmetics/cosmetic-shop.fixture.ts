@@ -51,11 +51,21 @@ export const SHOP_ITEMS: CosmeticShopItem[] = [
   ...[
     ["moldura-ambar", "Âmbar", "Um anel dourado.", "2"],
     ["moldura-violeta", "Moldura Violeta", "O roxo da marca, no seu rosto.", "5"],
-    ["moldura-trepadeira", "Trepadeira", "Vinhas que brotam folhas e abrem uma flor no topo.", "10"],
+    [
+      "moldura-trepadeira",
+      "Trepadeira",
+      "Vinhas que brotam folhas e abrem uma flor no topo.",
+      "10",
+    ],
     ["moldura-solar", "Solar", "Um brilho quente e vivo.", "5"],
     ["moldura-coral", "Moldura Coral", "Um aro coral para o seu retrato.", "2"],
     ["moldura-esmeralda", "Moldura Esmeralda", "Verde de vitrine.", "2"],
-    ["moldura-vaga-lumes", "Vaga-lumes", "Capim ao pé do retrato e vaga-lumes voando em volta.", "10"],
+    [
+      "moldura-vaga-lumes",
+      "Vaga-lumes",
+      "Capim ao pé do retrato e vaga-lumes voando em volta.",
+      "10",
+    ],
     ["moldura-glacial", "Glacial", "Cristais de gelo que cintilam no frio.", "10"],
     ["moldura-nebulosa", "Nebulosa", "Nuvens cósmicas e estrelas envolvendo o seu avatar.", "10"],
   ].map(([id, name, description, priceLabel]): CosmeticShopItem => ({

@@ -12,6 +12,8 @@ export { ProfileCard } from "./profile-card.js";
 export { ProfileMiniCard } from "./profile-mini-card.js";
 export { CosmeticItemArt } from "./cosmetic-item-art.js";
 export { CosmeticShop } from "./cosmetic-shop.js";
+export { LookScene } from "./look-scene.js";
+export { LOOK_SCENES } from "./look-scenes.js";
 export {
   COSMETIC_KINDS,
   EMPTY_TRY_ON,

@@ -35,6 +35,7 @@ import {
   toggleTryItem,
   tryLook,
 } from "./cosmetic-shop-state.js";
+import { LookScene } from "./look-scene.js";
 import { Nameplate } from "./nameplate.js";
 import { ProfileCard } from "./profile-card.js";
 
@@ -162,6 +163,7 @@ export function CosmeticShop({
           aria-label={messages.wearLook(entry.title)}
           onClick={() => wearLook(entry)}
         >
+          <LookScene lookId={entry.id} />
           <UserAvatar
             src={user.avatar}
             alt={user.name}
