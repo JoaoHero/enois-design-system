@@ -19,6 +19,9 @@ pixel-art tiles. Here every piece is cropped to its shape, centered in a 128×12
 as WebP, keeping only an alpha silhouette on white. They are tinted at draw time with `mask-image`
 (effects) or an SVG `<mask>` (banners and the scene of a ready-made look).
 
+The app credits these packs to Kenney on the landing footer, right next to the notice about the
+emotes (which come from other platforms and need a different disclaimer).
+
 ## License
 
 Creative Commons Zero v1.0 Universal (CC0 1.0)
