@@ -30,7 +30,7 @@ export function AuthenticatedAppHeader({
         )}
       </button>
 
-      <div className="pointer-events-auto flex shrink-0 items-center max-md:absolute max-md:left-1/2 max-md:z-10 max-md:-translate-x-1/2">
+      <div className="pointer-events-auto flex shrink-0 items-center app-header-brand-mobile max-md:absolute max-md:left-1/2 max-md:z-10 max-md:-translate-x-1/2 max-md:-ml-[22px]">
         <AppBrand href={homeHref} />
       </div>
       {search}
