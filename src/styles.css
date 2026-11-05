@@ -5094,3 +5094,16 @@ html[data-batata] .profile-scope {
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: var(--font-sans);
 }
+
+/* Centralização visual da marca no cabeçalho mobile: compensa a diferença entre o
+   botão único de menu à esquerda (56px com padding) e o par lupa + avatar à direita
+   (100px com padding), garantindo respiro simétrico nos dois lados. */
+@media (max-width: 767px) {
+  .app-header-brand-mobile {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: -22px;
+    z-index: 10;
+  }
+}
