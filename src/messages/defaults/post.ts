@@ -6,7 +6,7 @@ const openImage = "Ampliar imagem";
 export const postMessages: PostMessages = {
   caughtUpDivider: { title: "Você está em dia", subline: "Abaixo, posts que você já viu." },
   composerLauncher: {
-    placeholder: "O que você aprendeu hoje?",
+    placeholder: "Começar publicação",
     addMedia: "Adicionar foto ou vídeo",
   },
   spoilerText: { show: "Mostrar spoiler", hide: "Esconder spoiler" },

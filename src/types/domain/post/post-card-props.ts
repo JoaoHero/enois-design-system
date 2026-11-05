@@ -47,6 +47,25 @@ export type PostCardProps = {
   onShowSeals: () => void;
   onFollowCommunity?: () => void;
   followPending?: boolean;
+  /** Bio ou headline do autor (exibe na segunda linha do header). */
+  authorHeadline?: string | null;
+  authorBio?: string | null;
+  /** Grau de conexão do autor (ex: "2º"). */
+  authorConnectionDegree?: string | null;
+  /** Seguir o autor do post. */
+  onFollowAuthor?: () => void;
+  followAuthorPending?: boolean;
+  isFollowingAuthor?: boolean;
+  /** Contexto social opcional (ex: "Deyse Paiva gostou" com avatar no topo). */
+  socialContext?: {
+    avatar?: string | null;
+    text: string;
+    href?: string | null;
+  } | null;
+  /** Botão 'X' para descartar/ocultar post. */
+  onDismiss?: () => void;
+  /** Botão '...' de mais opções. */
+  onOptionsClick?: () => void;
   /** Chamado ao abrir o post pelo "Ler mais" ou pelo convite do artigo. */
   onOpenPost?: () => void;
   /** Prévia de vídeo dos links toca sozinha (muda) quando entra na tela. */
