@@ -8,7 +8,7 @@ import { UserAvatar } from "../avatar/user-avatar.js";
  * Área de Criação de Publicação:
  * - Avatar redondo à esquerda
  * - Input em formato 'pill' com o texto placeholder "Começar publicação"
- * - Barra de ações horizontal com ícones e textos: Vídeo, Foto, Escrever artigo
+ * - Barra de ações horizontal distribuída e centralizada com ícones e textos: Vídeo, Foto, Escrever artigo
  */
 export function ComposerLauncher({
   avatar,
@@ -45,13 +45,13 @@ export function ComposerLauncher({
         </button>
       </div>
 
-      <div className="mt-3 flex items-center justify-around border-t border-border-soft/60 pt-3 sm:justify-start sm:gap-6">
+      <div className="mt-3 flex items-center justify-around border-t border-border-soft/60 pt-2.5">
         <button
           type="button"
           onClick={videoHandler}
-          className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-text-subtle transition hover:bg-surface-2 hover:text-text-strong sm:text-sm"
+          className="flex flex-1 items-center justify-center gap-2 rounded-lg px-2 py-2 text-xs font-semibold text-text-subtle transition hover:bg-surface-2 hover:text-text-strong sm:text-sm"
         >
-          <Video className="h-5 w-5 text-emerald-500" />
+          <Video className="h-5 w-5 shrink-0 text-emerald-500" />
 
           <span>Vídeo</span>
         </button>
@@ -60,9 +60,9 @@ export function ComposerLauncher({
           type="button"
           onClick={photoHandler}
           aria-label={onAddMedia ? messages.addMedia : undefined}
-          className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-text-subtle transition hover:bg-surface-2 hover:text-text-strong sm:text-sm"
+          className="flex flex-1 items-center justify-center gap-2 rounded-lg px-2 py-2 text-xs font-semibold text-text-subtle transition hover:bg-surface-2 hover:text-text-strong sm:text-sm"
         >
-          <Image className="h-5 w-5 text-sky-500" />
+          <Image className="h-5 w-5 shrink-0 text-sky-500" />
 
           <span>Foto</span>
         </button>
@@ -70,9 +70,9 @@ export function ComposerLauncher({
         <button
           type="button"
           onClick={articleHandler}
-          className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-text-subtle transition hover:bg-surface-2 hover:text-text-strong sm:text-sm"
+          className="flex flex-1 items-center justify-center gap-2 rounded-lg px-2 py-2 text-xs font-semibold text-text-subtle transition hover:bg-surface-2 hover:text-text-strong sm:text-sm"
         >
-          <FileText className="h-5 w-5 text-amber-500" />
+          <FileText className="h-5 w-5 shrink-0 text-amber-500" />
 
           <span>Escrever artigo</span>
         </button>
