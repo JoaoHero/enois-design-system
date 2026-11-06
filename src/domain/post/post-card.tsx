@@ -415,11 +415,14 @@ export function PostCard({
             <>{messages.quotedFrom(post.repostOfAuthor)}</>
           </AppLink>
 
-          {post.repostOfContent && (
-            <p className="mt-2 line-clamp-6 whitespace-pre-line break-words text-sm text-text-strong">
-              {post.repostOfContent}
-            </p>
-          )}
+          {post.repostOfContent &&
+            renderRichText({
+              content: post.repostOfContent,
+              mediaIds: [],
+              mediaSpoiler: false,
+              className:
+                "mt-2 line-clamp-6 whitespace-pre-line break-words text-sm text-text-strong",
+            })}
 
           {post.repostOfMediaIds && post.repostOfMediaIds.length > 0 && (
             <div className="mt-2">
