@@ -15,9 +15,9 @@ describe("toHashtag", () => {
     expect(toHashtag("Dúvidas / ajuda!")).toBe("#DúvidasAjuda");
   });
 
-  it("gives the same tag whatever the case of the label", () => {
-    expect(toHashtag("CONTRASTE")).toBe("#Contraste");
-    expect(toHashtag("contraste")).toBe("#Contraste");
+  it("keeps the case the label came in", () => {
+    expect(toHashtag("CONTRASTE")).toBe("#CONTRASTE");
+    expect(toHashtag("contraste")).toBe("#contraste");
   });
 
   it("is stable when the result goes through it again", () => {

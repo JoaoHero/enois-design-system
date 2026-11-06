@@ -84,9 +84,16 @@ describe("HashtagPicker", () => {
   it("asks for a choice with the placeholder tag while empty and required", () => {
     render({ required: true });
 
-    expect(trigger()?.textContent).toBe("#Tópico");
+    expect(trigger()?.textContent).toBe("#tópico");
     expect(trigger()?.className).toContain("decoration-dashed");
     expect(trigger()?.getAttribute("aria-label")).toBe("Tópico (obrigatório)");
+  });
+
+  it("tells the screen reader it opens a list, not a dialog", () => {
+    render();
+
+    expect(trigger()?.getAttribute("aria-haspopup")).toBe("listbox");
+    expect(trigger()?.getAttribute("aria-expanded")).toBe("false");
   });
 
   it("opens the list and chooses on click, once, closing after", () => {
@@ -129,6 +136,29 @@ describe("HashtagPicker", () => {
     expect(document.activeElement).toBe(optionElements()[1]);
 
     press("Home");
+
+    expect(document.activeElement).toBe(optionElements()[0]);
+  });
+
+  it("chooses with Space too", () => {
+    const onChange = render();
+
+    openList();
+    press(" ");
+
+    expect(onChange).toHaveBeenCalledWith("TECH");
+  });
+
+  it("does not steal focus when the mouse passes over an option", () => {
+    render();
+
+    openList();
+
+    expect(document.activeElement).toBe(optionElements()[0]);
+
+    act(() => {
+      optionElements()[1]?.dispatchEvent(new MouseEvent("mouseover", { bubbles: true }));
+    });
 
     expect(document.activeElement).toBe(optionElements()[0]);
   });

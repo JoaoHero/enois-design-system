@@ -1,5 +1,5 @@
 import type { KeyboardEvent } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import { Check } from "lucide-react";
 
@@ -33,11 +33,14 @@ export function HashtagPicker({
   const tag = toHashtag(current?.label ?? placeholder) || placeholder;
 
   const openList = (next: boolean) => {
-    setOpen(next);
-    if (next) {
-      const selected = options.findIndex((option) => option.value === value);
-      setActiveIndex(selected >= 0 ? selected : 0);
+    if (!next) {
+      setOpen(false);
+      return;
     }
+
+    const selected = options.findIndex((option) => option.value === value);
+    setActiveIndex(selected >= 0 ? selected : 0);
+    setOpen(true);
   };
 
   const choose = (next: string) => {
@@ -45,37 +48,34 @@ export function HashtagPicker({
     setOpen(false);
   };
 
-  // The option itself carries focus (roving), so the list opens on the chosen one.
-  const focusActive = () => {
-    const items = listRef.current?.querySelectorAll<HTMLElement>('[role="option"]');
-    items?.[activeIndex]?.focus();
+  // Focus only moves when asked (opening or a key press); hovering just highlights.
+  const moveTo = (index: number) => {
+    const next = Math.min(Math.max(index, 0), options.length - 1);
+    const item = listRef.current?.querySelectorAll<HTMLElement>('[role="option"]')[next];
+
+    setActiveIndex(next);
+    item?.focus();
+    // jsdom has no `scrollIntoView`; browsers keep the focused option inside the visible area.
+    item?.scrollIntoView?.({ block: "nearest" });
   };
 
-  useEffect(() => {
-    if (open) focusActive();
-    // `focusActive` only reads the ref and the index of this render.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, activeIndex]);
-
   const onListKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    const last = options.length - 1;
-
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault();
-        setActiveIndex((index) => Math.min(index + 1, last));
+        moveTo(activeIndex + 1);
         break;
       case "ArrowUp":
         event.preventDefault();
-        setActiveIndex((index) => Math.max(index - 1, 0));
+        moveTo(activeIndex - 1);
         break;
       case "Home":
         event.preventDefault();
-        setActiveIndex(0);
+        moveTo(0);
         break;
       case "End":
         event.preventDefault();
-        setActiveIndex(last);
+        moveTo(options.length - 1);
         break;
       case "Enter":
       case " ": {
@@ -92,6 +92,8 @@ export function HashtagPicker({
       <PopoverTrigger asChild>
         <button
           type="button"
+          // Radix labels the trigger as opening a dialog; this one opens a list, not a dialog.
+          aria-haspopup="listbox"
           // The dashed underline is the only "required" signal on screen; the name carries it too.
           aria-label={needed ? `${label} (obrigatório)` : label}
           title={label}
@@ -113,7 +115,7 @@ export function HashtagPicker({
         // Radix would focus the panel itself; the list wants focus on the option.
         onOpenAutoFocus={(event) => {
           event.preventDefault();
-          focusActive();
+          moveTo(activeIndex);
         }}
         className="max-h-[60vh] w-[min(18rem,calc(100vw-1rem))] overflow-y-auto rounded-2xl border-border-soft p-1"
       >
