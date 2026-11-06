@@ -197,8 +197,11 @@ export function PostCard({
 
       {/* Repost legado (post-cópia, sem opinião): credito ao autor original.
           Repost com opinião: texto simples sem avatar/badge. */}
-      {post.repostOf && hrefs.repostOf && !post.repostedByName && !resolvedSocialContext && (
-        post.repostWithOpinion ? (
+      {post.repostOf &&
+        hrefs.repostOf &&
+        !post.repostedByName &&
+        !resolvedSocialContext &&
+        (post.repostWithOpinion ? (
           <span className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle">
             <Repeat2 className="h-3.5 w-3.5" />
             {messages.repostedWithOpinion}
@@ -216,10 +219,10 @@ export function PostCard({
               />
             )}
             <Repeat2 className="h-3.5 w-3.5" />
+
             <>{messages.repostedFrom(post.repostOfAuthor)}</>
           </AppLink>
-        )
-      )}
+        ))}
 
       {/* 2. Header do Autor + Ações de Menu */}
       <header className="flex flex-wrap items-start justify-between gap-3">
