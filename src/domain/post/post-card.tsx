@@ -195,28 +195,34 @@ export function PostCard({
         </div>
       ) : null}
 
-      {/* Repost com opinião ou repost legado (post-cópia). */}
-      {post.repostOf && hrefs.repostOf && !post.repostedByName && !resolvedSocialContext && (
-        <AppLink
-          href={hrefs.repostOf}
-          className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle transition hover:text-primary"
-        >
-          {post.repostOfAvatar && (
-            <UserAvatar
-              src={post.repostOfAvatar}
-              alt={post.repostOfAuthor}
-              className="h-4 w-4 rounded-full"
-            />
-          )}
-          <Repeat2 className="h-3.5 w-3.5" />
+      {/* Repost legado (post-cópia, sem opinião): credito ao autor original.
+          Repost com opinião: texto simples sem avatar/badge. */}
+      {post.repostOf &&
+        hrefs.repostOf &&
+        !post.repostedByName &&
+        !resolvedSocialContext &&
+        (post.repostWithOpinion ? (
+          <span className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle">
+            <Repeat2 className="h-3.5 w-3.5" />
+            {messages.repostedWithOpinion}
+          </span>
+        ) : (
+          <AppLink
+            href={hrefs.repostOf}
+            className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle transition hover:text-primary"
+          >
+            {post.repostOfAvatar && (
+              <UserAvatar
+                src={post.repostOfAvatar}
+                alt={post.repostOfAuthor}
+                className="h-4 w-4 rounded-full"
+              />
+            )}
+            <Repeat2 className="h-3.5 w-3.5" />
 
-          <>
-            {post.repostWithOpinion
-              ? messages.repostedWithOpinion
-              : messages.repostedFrom(post.repostOfAuthor)}
-          </>
-        </AppLink>
-      )}
+            <>{messages.repostedFrom(post.repostOfAuthor)}</>
+          </AppLink>
+        ))}
 
       {/* 2. Header do Autor + Ações de Menu */}
       <header className="flex flex-wrap items-start justify-between gap-3">
@@ -412,11 +418,14 @@ export function PostCard({
             <>{messages.quotedFrom(post.repostOfAuthor)}</>
           </AppLink>
 
-          {post.repostOfContent && (
-            <p className="mt-2 line-clamp-6 whitespace-pre-line break-words text-sm text-text-strong">
-              {post.repostOfContent}
-            </p>
-          )}
+          {post.repostOfContent &&
+            renderRichText({
+              content: post.repostOfContent,
+              mediaIds: [],
+              mediaSpoiler: false,
+              className:
+                "mt-2 line-clamp-6 whitespace-pre-line break-words text-sm text-text-strong",
+            })}
 
           {post.repostOfMediaIds && post.repostOfMediaIds.length > 0 && (
             <div className="mt-2">
