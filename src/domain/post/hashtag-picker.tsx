@@ -35,7 +35,9 @@ export function HashtagPicker({
           className={cn(
             "inline-flex min-w-0 max-w-full shrink items-center rounded-md px-1 py-0.5 text-sm font-medium transition hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             current ? "text-primary" : "text-text-subtle hover:text-primary",
-            !current && required && "underline decoration-primary/60 decoration-dashed underline-offset-4",
+            !current &&
+              required &&
+              "underline decoration-primary/60 decoration-dashed underline-offset-4",
             open && "bg-primary/10 text-primary",
             className,
           )}
