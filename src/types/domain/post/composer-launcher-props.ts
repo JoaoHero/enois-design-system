@@ -3,11 +3,8 @@ export type ComposerLauncherProps = {
   avatar: string | null | undefined;
   avatarFrame?: string | null;
   name: string;
-  placeholder?: string;
   /** Opens the full composer, focused. */
   onOpen: () => void;
   /** Opens the composer straight into adding media. */
   onAddMedia?: () => void;
-  onAddVideo?: () => void;
-  onWriteArticle?: () => void;
 };
