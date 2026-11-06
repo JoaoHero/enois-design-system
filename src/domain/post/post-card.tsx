@@ -195,27 +195,30 @@ export function PostCard({
         </div>
       ) : null}
 
-      {/* Repost com opinião ou repost legado (post-cópia). */}
+      {/* Repost legado (post-cópia, sem opinião): credito ao autor original.
+          Repost com opinião: texto simples sem avatar/badge. */}
       {post.repostOf && hrefs.repostOf && !post.repostedByName && !resolvedSocialContext && (
-        <AppLink
-          href={hrefs.repostOf}
-          className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle transition hover:text-primary"
-        >
-          {post.repostOfAvatar && (
-            <UserAvatar
-              src={post.repostOfAvatar}
-              alt={post.repostOfAuthor}
-              className="h-4 w-4 rounded-full"
-            />
-          )}
-          <Repeat2 className="h-3.5 w-3.5" />
-
-          <>
-            {post.repostWithOpinion
-              ? messages.repostedWithOpinion
-              : messages.repostedFrom(post.repostOfAuthor)}
-          </>
-        </AppLink>
+        post.repostWithOpinion ? (
+          <span className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle">
+            <Repeat2 className="h-3.5 w-3.5" />
+            {messages.repostedWithOpinion}
+          </span>
+        ) : (
+          <AppLink
+            href={hrefs.repostOf}
+            className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle transition hover:text-primary"
+          >
+            {post.repostOfAvatar && (
+              <UserAvatar
+                src={post.repostOfAvatar}
+                alt={post.repostOfAuthor}
+                className="h-4 w-4 rounded-full"
+              />
+            )}
+            <Repeat2 className="h-3.5 w-3.5" />
+            <>{messages.repostedFrom(post.repostOfAuthor)}</>
+          </AppLink>
+        )
       )}
 
       {/* 2. Header do Autor + Ações de Menu */}
