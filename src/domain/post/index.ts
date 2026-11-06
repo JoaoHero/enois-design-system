@@ -1,5 +1,7 @@
 export { CaughtUpDivider } from "./caught-up-divider.js";
 export { ComposerLauncher } from "./composer-launcher.js";
+export { HashtagPicker } from "./hashtag-picker.js";
+export { toHashtag } from "../../lib/hashtag.js";
 export { PostCard } from "./post-card.js";
 export { PostCardSkeletons } from "./post-card-skeletons.js";
 export { PostEditDialog } from "./post-edit-dialog.js";
@@ -124,3 +126,5 @@ export type { InlineChunk } from "../../types/lib/rich-text/inline-chunk.js";
 export type { RichNode } from "../../types/lib/rich-text/rich-node.js";
 export type { RichTextFormat } from "../../types/lib/rich-text/rich-text-format.js";
 export type { ComposerLauncherProps } from "../../types/domain/post/composer-launcher-props.js";
+export type { HashtagOption } from "../../types/domain/post/hashtag-option.js";
+export type { HashtagPickerProps } from "../../types/domain/post/hashtag-picker-props.js";
