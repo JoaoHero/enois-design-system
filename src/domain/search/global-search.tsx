@@ -42,6 +42,18 @@ export function GlobalSearch({ results, isFetching, onQueryChange, onSelect }: G
     if (mobileOpen) inputRef.current?.focus();
   }, [mobileOpen]);
 
+  // Fecha a busca mobile ao scrollar pra baixo.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onScroll = () => {
+      setMobileOpen(false);
+      setOpen(false);
+      setQuery("");
+    };
+    window.addEventListener("scroll", onScroll, { passive: true, once: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [mobileOpen]);
+
   const closeSearch = () => {
     setOpen(false);
     setQuery("");

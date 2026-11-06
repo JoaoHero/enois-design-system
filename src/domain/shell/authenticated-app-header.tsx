@@ -18,6 +18,7 @@ export function AuthenticatedAppHeader({
 
   return (
     <AppHeaderLayout>
+      {/* Mobile: hamburger a esquerda, logo centralizado, acoes a direita */}
       <button
         onClick={onOpenNavigation}
         className="relative z-20 grid h-11 w-11 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary lg:hidden"
@@ -30,12 +31,12 @@ export function AuthenticatedAppHeader({
         )}
       </button>
 
-      <div className="pointer-events-auto flex shrink-0 items-center app-header-brand-mobile max-md:absolute max-md:left-1/2 max-md:z-10 max-md:-translate-x-1/2 max-md:-ml-[22px]">
+      <div className="flex min-w-0 flex-1 items-center max-md:justify-center md:flex-none md:shrink-0">
         <AppBrand href={homeHref} />
       </div>
       {search}
 
-      <div className="relative z-20 flex items-center gap-2 max-md:ml-0 md:ml-auto">{actions}</div>
+      <div className="relative z-20 flex items-center gap-2 md:ml-auto">{actions}</div>
     </AppHeaderLayout>
   );
 }
