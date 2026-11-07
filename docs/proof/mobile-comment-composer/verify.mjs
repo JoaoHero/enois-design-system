@@ -200,6 +200,54 @@ try {
     assert.ok(await submit.isEnabled());
     await page.close();
   }
+  for (const width of [390, 1280]) {
+    for (const dark of [false, true]) {
+      const page = await context.newPage();
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto(
+        `http://127.0.0.1:${server.address().port}/iframe.html?id=domain-post-comments--send-error&viewMode=story`,
+      );
+      await page.locator("form textarea").waitFor();
+      await page.evaluate(
+        (enabled) => document.documentElement.classList.toggle("dark", enabled),
+        dark,
+      );
+      for (const open of [false, true]) {
+        if (open) await page.locator("button[aria-controls]").click();
+        await page.waitForTimeout(250);
+        const bounds = await page.locator("form").evaluate((form) => {
+          const fieldBox = form.querySelector('[class~="col-span-3"][class~="row-start-1"]');
+          const field = fieldBox.getBoundingClientRect();
+          const error = fieldBox.nextElementSibling.getBoundingClientRect();
+          const toggle = form.querySelector("button[aria-controls]").getBoundingClientRect();
+          const submit = form.querySelector('button[type="submit"]').getBoundingClientRect();
+          return {
+            field: { x: field.x, bottom: field.bottom },
+            error: { x: error.x, y: error.y, bottom: error.bottom },
+            toggleY: toggle.y,
+            submitY: submit.y,
+          };
+        });
+        assert.ok(Math.abs(bounds.error.x - bounds.field.x) < 1);
+        assert.ok(bounds.error.y >= bounds.field.bottom);
+        assert.ok(bounds.error.y - bounds.field.bottom <= 7);
+        if (width < 640) {
+          assert.ok(bounds.toggleY >= bounds.error.bottom);
+          assert.ok(bounds.submitY >= bounds.error.bottom);
+        }
+        assert.equal(await page.locator('button[type="submit"]').count(), 1);
+        await page.screenshot({
+          path: fileURLToPath(
+            new URL(
+              `${width}-error-${dark ? "dark" : "light"}-${open ? "open" : "closed"}.png`,
+              import.meta.url,
+            ),
+          ),
+        });
+      }
+      await page.close();
+    }
+  }
   assert.deepEqual(errors, []);
   const summary = measurements.map((row) => ({
     width: row.width,

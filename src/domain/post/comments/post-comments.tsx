@@ -12,6 +12,7 @@ import { EyeOff, Image, Loader2, Mic, Plus, Send, Square, X } from "lucide-react
 
 import { cn } from "../../../lib/utils.js";
 import { useMessages } from "../../../messages/messages-context.js";
+import { isComposerError } from "../../../types/domain/post/comments-error.js";
 import type { PostCommentNode } from "../../../types/domain/post/post-comment-node.js";
 import type { PostCommentsProps } from "../../../types/domain/post/post-comments-props.js";
 import { Button } from "../../../ui/button.js";
@@ -287,7 +288,8 @@ export function PostComments<C extends PostCommentNode>({
             aria-label={toolsShown ? messages.closeTools : messages.moreTools}
             title={toolsShown ? messages.closeTools : messages.moreTools}
             className={cn(
-              "col-start-1 row-start-2 grid h-9 w-9 shrink-0 place-items-center rounded-full text-text-subtle transition-colors hover:bg-surface-2 hover:text-primary disabled:opacity-60 sm:row-start-1",
+              "col-start-1 grid h-9 w-9 shrink-0 place-items-center rounded-full text-text-subtle transition-colors hover:bg-surface-2 hover:text-primary disabled:opacity-60 sm:row-start-1",
+              isComposerError(error) ? "row-start-3" : "row-start-2",
               toolsShown && "bg-surface-2 text-primary",
             )}
           >
@@ -308,11 +310,18 @@ export function PostComments<C extends PostCommentNode>({
               : composerField}
           </div>
 
+          {isComposerError(error) && (
+            <p className="col-span-3 col-start-1 row-start-2 min-w-0 text-xs font-normal text-destructive sm:col-span-1 sm:col-start-2 sm:mt-1.5">
+              {messages.errors[error]}
+            </p>
+          )}
+
           <Button
             type="submit"
             size="sm"
             className={cn(
-              "col-start-3 row-start-2 h-9 min-w-9 shrink-0 rounded-full sm:row-start-1 sm:w-9 sm:p-0",
+              "col-start-3 h-9 min-w-9 shrink-0 rounded-full sm:row-start-1 sm:w-9 sm:p-0",
+              isComposerError(error) ? "row-start-3" : "row-start-2",
               toolsShown && "w-9 p-0",
             )}
             disabled={!canSend || sending}
@@ -339,7 +348,10 @@ export function PostComments<C extends PostCommentNode>({
           <div
             id={trayId}
             inert={!toolsShown}
-            className="col-start-2 row-start-2 grid min-w-0 self-center transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none sm:col-span-3 sm:col-start-1"
+            className={cn(
+              "col-start-2 grid min-w-0 self-center transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none sm:col-span-3 sm:col-start-1",
+              isComposerError(error) ? "row-start-3" : "row-start-2",
+            )}
             style={{ gridTemplateRows: toolsShown ? "1fr" : "0fr" }}
           >
             <div className="min-h-0 overflow-hidden">
@@ -410,9 +422,11 @@ export function PostComments<C extends PostCommentNode>({
       >
         {loading && <CommentSkeletons />}
 
-        {!loading && error && (
+        {/* Only a failed read takes the list away: a refused send shows under the field and the
+            comments already on screen stay. */}
+        {!loading && error === "load" && (
           <div className="py-4 text-center">
-            <p className="text-sm font-normal text-destructive">{messages.errors[error]}</p>
+            <p className="text-sm font-normal text-destructive">{messages.errors.load}</p>
 
             <Button variant="outline" size="sm" className="mt-2 rounded-full" onClick={onRetry}>
               {messages.retry}
@@ -420,12 +434,12 @@ export function PostComments<C extends PostCommentNode>({
           </div>
         )}
 
-        {!loading && !error && roots.length === 0 && (
+        {!loading && error !== "load" && roots.length === 0 && (
           <p className="py-4 text-center text-sm font-normal text-text-subtle">{messages.empty}</p>
         )}
 
         {!loading &&
-          !error &&
+          error !== "load" &&
           roots.map((comment) => {
             const replies = comments.filter(
               (c) => c.id !== comment.id && rootIdByComment.get(c.id) === comment.id,
@@ -451,7 +465,7 @@ export function PostComments<C extends PostCommentNode>({
 
         {loadingMore && <CommentSkeletons count={1} />}
 
-        {!loading && !error && hasMore && (
+        {!loading && error !== "load" && hasMore && (
           <div className="pt-1 text-center">
             <Button
               variant="ghost"

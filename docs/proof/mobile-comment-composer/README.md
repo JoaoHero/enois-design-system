@@ -65,7 +65,7 @@ Additional 390px states: [sending](390-sending.png), [media without text](390-me
 These are isolated DS stories, not an authenticated application/backend session.
 They do not claim physical-device microphone, native keyboard or Safari testing.
 
-## Local integration checks
+## Original integration checks (before the qa sync)
 
 - DS: lint, typecheck, 146 test files / 1,195 tests, package build, all four
   `test:dist` entrypoints and production Storybook build passed.
@@ -78,3 +78,35 @@ They do not claim physical-device microphone, native keyboard or Safari testing.
   unit suites; this does not claim warning-free unit test output.
 - The package remains local. No dependency pin, release, commit or PR update was
   made as part of this verification.
+
+## QA sync, 2026-11-07
+
+The in-progress merge includes upstream `qa` at `3f7a756`. Both conflicting
+files were reconciled: the DS still owns the responsive layout and single submit,
+and composer errors from #138 remain next to the field without replacing the
+loaded thread. The error occupies grid row 2, spanning the mobile field width
+and aligning with column 2 on desktop. Only when an error exists do the mobile
+footer and tools move to row 3; the ordinary layout keeps its original spacing.
+
+The new parameterized regression checks send errors with the tools open and
+closed. It fails against the pre-merge component and passes on the final tree.
+The existing QA tests for preserving loaded comments and replacing the list only
+on a load failure are retained.
+
+Final DS checks: lint (zero errors, five existing hook warnings), typecheck,
+153 test files / 1,292 tests, package build, all four distribution entrypoints,
+ESLint rule tests and production Storybook build passed. The frontend integration
+results above are historical; a fresh frontend integration suite was not run.
+The current frontend QA already supplies a field-only `composerField`, so this
+DS layout does not depend on frontend #652. That PR concerns media-only sending;
+release the DS through the normal maintainer process before a consumer bump.
+
+Browser verification also passed: the original 30 state/viewport combinations,
+plus eight send-error combinations at 390px and 1280px, light/dark, tools
+open/closed. Error and field left edges match within 1px; the gap is at most
+7px. On mobile both footer controls remain below the error. Screenshots inspected
+at both widths and in both themes show the error directly under the field.
+Examples: [mobile, dark, open](390-error-dark-open.png),
+[mobile, light, closed](390-error-light-closed.png),
+[desktop, light, closed](1280-error-light-closed.png), and
+[desktop, dark, open](1280-error-dark-open.png).

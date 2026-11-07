@@ -4,22 +4,27 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import type { CommentMediaDraft } from "../../../types/domain/post/comment-media-draft.js";
 import type { CommentsError } from "../../../types/domain/post/comments-error.js";
+import type { PostCommentsProps } from "../../../types/domain/post/post-comments-props.js";
 import { MentionTextarea } from "../editor/mention-textarea.js";
 
 import { PostComments } from "./post-comments.js";
 
-const meta: Meta = { title: "Domain/Post comments", parameters: { layout: "fullscreen" } };
+const meta: Meta<Pick<PostCommentsProps, "error">> = {
+  title: "Domain/Post comments",
+  parameters: { layout: "fullscreen" },
+};
 export default meta;
 
-export const Composer: StoryObj = {
-  render: function ComposerStory() {
+export const Composer: StoryObj<typeof meta> = {
+  args: { error: null },
+  render: function ComposerStory({ error: initialError }) {
     const [draft, setDraft] = useState("");
     const [media, setMedia] = useState<CommentMediaDraft[]>([]);
     const [mediaSpoiler, setMediaSpoiler] = useState(false);
     const mediaRef = useRef(media);
     const [sending, setSending] = useState(false);
     const [replyToId, setReplyToId] = useState<string | null>(null);
-    const [error, setError] = useState<CommentsError | null>(null);
+    const [error, setError] = useState<CommentsError | null>(initialError);
     const [gifRequests, setGifRequests] = useState(0);
     const [submissions, setSubmissions] = useState(0);
     const [lastMediaCount, setLastMediaCount] = useState(0);
@@ -126,4 +131,9 @@ export const Composer: StoryObj = {
       </div>
     );
   },
+};
+
+export const SendError: StoryObj<typeof meta> = {
+  ...Composer,
+  args: { error: "send" },
 };
